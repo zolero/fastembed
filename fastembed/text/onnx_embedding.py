@@ -17,6 +17,7 @@ supported_onnx_models = [
         "sources": {
             "hf": "BAAI/bge-m3",
         },
+        "model_file": "onnx/model.onnx",
     },
     {
         "model": "BAAI/bge-base-en",
