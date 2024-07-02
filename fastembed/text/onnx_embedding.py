@@ -10,6 +10,15 @@ from fastembed.text.text_embedding_base import TextEmbeddingBase
 
 supported_onnx_models = [
     {
+        "model": "BAAI/bge-m3",
+        "dim": 1024,
+        "description": "BGE-M3, which is distinguished for its versatility in Multi-Functionality, Multi-Linguality, and Multi-Granularity.	",
+        "size_in_GB": 2.27,
+        "sources": {
+            "hf": "BAAI/bge-m3",
+        },
+    },
+    {
         "model": "BAAI/bge-base-en",
         "dim": 768,
         "description": "Base English model",
@@ -270,8 +279,20 @@ class OnnxTextEmbedding(TextEmbeddingBase, OnnxTextModel[np.ndarray]):
         self, onnx_input: Dict[str, np.ndarray], **kwargs
     ) -> Dict[str, np.ndarray]:
         """
-        Preprocess the onnx input.
+        Preprocess the ONNX input, conditionally including 'token_type_ids'.
+
+        Args:
+            onnx_input (Dict[str, np.ndarray]): The original ONNX input dictionary.
+
+        Returns:
+            Dict[str, np.ndarray]: The modified ONNX input dictionary.
         """
+        # Check if 'token_type_ids' is expected by the model
+        expected_input_names = [input.name for input in self.model.get_inputs()]
+        if 'token_type_ids' not in expected_input_names:
+            # Remove 'token_type_ids' from the input if not expected by the model
+            onnx_input.pop('token_type_ids', None)
+
         return onnx_input
 
     def _post_process_onnx_output(self, output: OnnxOutputContext) -> Iterable[np.ndarray]:
