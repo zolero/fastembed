@@ -15,9 +15,9 @@ supported_onnx_models = [
         "description": "BGE-M3, which is distinguished for its versatility in Multi-Functionality, Multi-Linguality, and Multi-Granularity.	",
         "size_in_GB": 2.27,
         "sources": {
-            "hf": "BAAI/bge-m3",
+            "hf": "ddmitov/bge_m3_dense_colbert_onnx",
         },
-        "model_file": "onnx/model.onnx",
+        "model_file": "model.onnx",
     },
     {
         "model": "BAAI/bge-base-en",
